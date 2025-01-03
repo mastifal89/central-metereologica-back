@@ -1,5 +1,25 @@
 const express = require('express');
+const { SerialPort } = require('serialport');
+const { ReadlineParser } = require('@serialport/parser-readline');
 
+const parser = new ReadlineParser({ delimiter: '\r\n' });
+
+var port = new SerialPort({
+  path: 'COM3',
+  baudRate: 9600,
+  dataBits: 8,
+  parity: 'none',
+  stopBits: 1,
+  flowControl: false
+});
+
+port.pipe(parser);
+
+parser.on('data', function(data) {
+  console.log('Data:', data);
+});
+
+console.log(port)
 const app = express();
 const PORT = 3000;
 
