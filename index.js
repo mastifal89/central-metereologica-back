@@ -19,7 +19,6 @@ parser.on('data', function(data) {
   console.log('Data:', data);
 });
 
-console.log(port)
 const app = express();
 const PORT = 3000;
 
