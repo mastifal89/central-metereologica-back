@@ -1,25 +1,13 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline');
 
-const parser = new ReadlineParser({ delimiter: '\r\n' });
-
-var port = new SerialPort({
-  path: 'COM3',
-  baudRate: 9600,
-  dataBits: 8,
-  parity: 'none',
-  stopBits: 1,
-  flowControl: false
-});
-
-port.pipe(parser);
-
-parser.on('data', function(data) {
-  console.log('Data:', data);
-});
-
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const PORT = 3000;
 
 // Datos mock que simulan la información que podría enviar el ESP8266
@@ -29,12 +17,18 @@ const mockData = {
   light: 800
 };
 
-app.get('/getData', (req, res) => {
-  // Simulamos un pequeño retardo como si estuviéramos esperando por una respuesta del ESP8266
-  setTimeout(() => {
-    // Aquí enviaríamos los datos mock en lugar de obtenerlos del ESP8266
-    res.json(mockData);
-  }, 1000); // 1 segundo de retardo para simular una petición HTTP real
+app.post('/sendData', (req, res) => {
+  console.log("res: ", req.body);
+  // Aquí recibimos los datos enviados desde el ESP8266
+  const data = req.body.data ? JSON.parse(req.body.data) : null;
+  
+  if (data) {
+    console.log('Datos recibidos:', data);
+    // Aquí podrías procesar los datos recibidos, guardarlos en una base de datos, etc.
+    res.status(200).send('Datos recibidos correctamente');
+  } else {
+    res.status(400).send('Datos no recibidos o en formato incorrecto');
+  }
 });
 
 app.listen(PORT, () => {
