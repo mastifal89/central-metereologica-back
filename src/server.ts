@@ -3,9 +3,8 @@ import dataRoutes from './routes/data.routes';
 import mongoose, { ConnectOptions } from 'mongoose';
 
 const PORT = process.env.PORT || 3000;
-const DB_URL = process.env.DB_URL;
 
-console.log("acaaaa: ", DB_URL);
+const DB_URL = process.env.DB_URL;
 
 if (!DB_URL) {
   console.error('MongoDB connection URL not found in .env');
