@@ -8,7 +8,6 @@ export class DataService {
       sensorValue: data.sensorValue,
     });
     await dataToSave.save();
-    console.log("chanchin!");
   }
 
   async getData() {
