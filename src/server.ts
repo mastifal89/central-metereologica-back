@@ -1,8 +1,8 @@
 import app from './app';
 import dataRoutes from './routes/data.routes';
-import mongoose, { ConnectOptions } from 'mongoose';
+import mongoose from 'mongoose';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 const DB_URL = process.env.DB_URL;
 
